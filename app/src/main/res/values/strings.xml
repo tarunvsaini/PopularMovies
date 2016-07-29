@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="title">title</string>
+    <string name="description">description</string>
+    <string name="title_activity_movie_details">MovieDetails</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="profile">profile</string>
+
+</resources>
