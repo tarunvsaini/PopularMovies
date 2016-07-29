@@ -30,7 +30,6 @@ public class TopMovieList extends AppCompatActivity {
     public static final String TAG =TopMovieList.class.getSimpleName() ;
     private RecyclerView recyclerView;
     private TopRatedMovies mMovieAdapter;
-    private final static String API_KEY = "Add Your API KEY HERE";
     FloatingActionMenu floatingActionMenu;
     ArrayList<MovieModel> movieList;
     FloatingActionButton fab1,fab2,fab3;
@@ -56,7 +55,7 @@ public class TopMovieList extends AppCompatActivity {
 
         }
         TmdbInterface tmdbInterface = TmdbClient.getClient().create(TmdbInterface.class);
-        Call<MovieModel> call = tmdbInterface.getTopRatedMovies(API_KEY);
+        Call<MovieModel> call = tmdbInterface.getTopRatedMovies(PopularMovieList.API_KEY);
         call.enqueue(new Callback<MovieModel>() {
 
             @Override
