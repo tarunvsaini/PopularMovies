@@ -31,7 +31,7 @@ public class PopularMovieList extends AppCompatActivity {
     public static final String TAG = TopMovieList.class.getSimpleName();
     private RecyclerView recyclerView;
     private PopularMovies mMovieAdapter;
-    private final static String API_KEY = "Add Your API KEY HERE";
+    public final static String API_KEY = "Add Your API KEY HERE";
     FloatingActionMenu floatingActionMenu;
     ArrayList<MovieModel> movieList;
     FloatingActionButton fab1, fab2, fab3;
