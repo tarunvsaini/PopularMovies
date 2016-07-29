@@ -30,7 +30,7 @@ public class TopMovieList extends AppCompatActivity {
     public static final String TAG =TopMovieList.class.getSimpleName() ;
     private RecyclerView recyclerView;
     private TopRatedMovies mMovieAdapter;
-    private final static String API_KEY = "de89bc307e69043208119480f9f2a159";
+    private final static String API_KEY = "Add Your API KEY HERE";
     FloatingActionMenu floatingActionMenu;
     ArrayList<MovieModel> movieList;
     FloatingActionButton fab1,fab2,fab3;
