@@ -23,7 +23,7 @@ public class MovieDetails extends AppCompatActivity {
     ArrayList<MovieModel> movies=new ArrayList<>();
     public static final String DETAILS ="details" ;
     private MovieModel mMovieModel;
-    private final static String API_KEY = "Add Your Api Key Here";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
