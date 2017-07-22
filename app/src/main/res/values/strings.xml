@@ -5,5 +5,21 @@
     <string name="title_activity_movie_details">MovieDetails</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="profile">profile</string>
+    <string name="popularity">"Popularity: "</string>
+    <string name="share">share</string>
+    <string name="shareMessage">Hey! Checkout this Movie Trailer  </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favoriteMovies">Favorite Movies</string>
+    <string name="language">Language</string>
+    <string name="releaseDate">Release Date:</string>
+    <string name="TopRatedMovies">Top Rated Movies</string>
+    <string name="TopRatedMovie">Top Rated Movies</string>
+    <string name="FavoriteMovie">Favorite Movies</string>
+    <string name="PopularMovie">Popular Movies</string>
+    <string name="n_a">N/A</string>
+    <string name="no_trailer">Sorry no trailer available right now. :(</string>
+    <string name="empty_view_title_text">I think you are Offline</string>
+    <string name="empty_view_subtitle_text">Save favorite movies for offline access</string>
+    <string name="currently_you_have_no_favorite_movies">Currently you have no favorite movies</string>
 
 </resources>

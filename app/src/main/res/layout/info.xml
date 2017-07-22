@@ -1,84 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:weightSum="6"
-        android:id="@+id/linearLayout">
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ratting"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/ratings"/>
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/votes"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/votes"/>
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/popularity"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/popularity"/>
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/popularity"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/popularity"
+            android:gravity="center_vertical|center_horizontal"
+            android:src="@drawable/popularity"
+            android:text="@string/n_a"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/votes"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/votes"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+
+            android:layout_marginTop="0dp"
+            android:background="@drawable/votes"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/n_a"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ratings"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/rattings"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/n_a"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="16sp"
+            app:layout_constraintRight_toLeftOf="@+id/votes"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Ratings"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/ratings"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+
+            android:layout_marginTop="8dp"
+            android:layout_weight="1.3"
+            android:gravity="center"
+            android:text="Votes"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/votes" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:text="Popularity"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toRightOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/popularity" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="-4dp"
+            tools:layout_editor_absoluteX="-590dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorDivider"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/linearLayout"
-        ></View>
+        android:layout_marginTop="10dp"
+        android:background="@color/colorDivider">
+
+    </View>
 
     <TextView
+        android:id="@+id/overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Overview"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="20dp"
         android:layout_marginTop="20dp"
         android:padding="5dp"
-        android:id="@+id/overview" />
+        android:text="Overview"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="14dp"
-        android:id="@+id/desc" />
+        android:textSize="14dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/desc"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorDivider">
+
+    </View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="Review"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp" />
 
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/review_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    
+    </android.support.v7.widget.RecyclerView>
 
-    
+    <TextView
+        android:id="@+id/empty_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No Review Available"
+        android:visibility="invisible" />
+
 
 </LinearLayout>
 

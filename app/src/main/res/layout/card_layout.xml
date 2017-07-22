@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="5dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/mini_inner_margin"
+    android:background="@color/cardview_dark_background"
+    android:orientation="vertical">
 
-    android:layout_height="wrap_content">
-    
     <android.support.v7.widget.CardView
+        android:id="@+id/grid_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="@dimen/card_margin"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
         app:cardCornerRadius="@dimen/card_corner_radius"
-        android:id="@+id/grid_card">
+
+        >
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/poster"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/grid_poster_height"
-                android:transitionName="thumb"
-                android:scaleType="centerCrop"
-                android:id="@+id/poster" />
+                android:background="@drawable/poster_placeholder"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/poster"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
                 android:maxLines="1"
+                android:paddingLeft="@dimen/padding_left_card_text"
+                android:paddingRight="@dimen/padding_text_right_card_text"
+                android:paddingTop="@dimen/padding_top_card_text"
                 android:singleLine="true"
+                android:text="@string/title"
                 android:textColor="@color/colorTextWhite"
-                android:textSize="14sp"
-                android:text="@string/title"/>
+                android:textSize="@dimen/title_text_size14" />
 
             <TextView
-                android:id="@+id/details"
+                android:id="@+id/secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:textSize="10sp"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
+                android:layout_marginBottom="@dimen/detatil_text_margin_bottom"
                 android:maxLines="1"
-                android:textColor="@color/colorTextWhite"
+                android:paddingLeft="@dimen/padding_left_card_text"
+                android:paddingRight="@dimen/padding_text_right_card_text"
+                android:paddingTop="@dimen/padding_top_card_text"
                 android:singleLine="true"
                 android:text="@string/description"
-                android:layout_marginBottom="5dp"/>
+                android:textColor="@color/colorTextWhite"
+                android:textSize="@dimen/detailTextSize" />
 
         </RelativeLayout>
 

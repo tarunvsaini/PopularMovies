@@ -8,13 +8,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Tarun on 14-07-2016.
- */
+
 public class MovieModel implements Parcelable {
 
-    public static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w342";
-    public static final String BASE_BACKDROP_URL = "http://image.tmdb.org/t/p/w780";
+
 
     @SerializedName("poster_path")
     private String poster;
@@ -48,10 +45,9 @@ public class MovieModel implements Parcelable {
     private ArrayList<MovieModel> results;
 
 
-    public MovieModel(String poster, String overview, String releaseDate, Integer id, String originalTitle, String originalLanguage, String title, Double popularity, String backdropPath, Integer voteCount, Boolean video, Double voteAverage, Integer reviewId, String author, String content, String url) {
+    public MovieModel(String poster, String overview, String releaseDate, Integer id, String originalLanguage, String title, Double popularity, String backdropPath, Integer voteCount, Double voteAverage) {
         this.poster = poster;
         this.overview = overview;
-        this.originalTitle = originalTitle;
         this.id = id;
         this.title = title;
         this.popularity = popularity;
@@ -59,8 +55,8 @@ public class MovieModel implements Parcelable {
         this.releaseDate=releaseDate;
         this.voteCount=voteCount;
         this.voteAverage=voteAverage;
-        this.video=video;
         this.originalLanguage=originalLanguage;
+
 
     }
 
@@ -79,6 +75,7 @@ public class MovieModel implements Parcelable {
         voteCount=in.readInt();
         voteAverage=in.readDouble();
 
+
     }
 
     public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
@@ -93,9 +90,13 @@ public class MovieModel implements Parcelable {
         }
     };
 
+    public MovieModel() {
+
+    }
+
 
     public String getPoster() {
-        return BASE_POSTER_URL + poster;
+        return  poster;
     }
 
     public void setPoster(String poster) {
@@ -110,14 +111,6 @@ public class MovieModel implements Parcelable {
         this.overview = overview;
     }
 
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
 
     public String getOriginalLanguage() {
         return originalLanguage;
@@ -152,7 +145,7 @@ public class MovieModel implements Parcelable {
     }
 
     public String getBackdropPath() {
-        return BASE_BACKDROP_URL + backdropPath;
+        return  backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
@@ -175,13 +168,6 @@ public class MovieModel implements Parcelable {
         this.voteCount = voteCount;
     }
 
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
-    }
 
     public Double getVoteAverage() {
         return voteAverage;

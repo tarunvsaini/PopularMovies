@@ -3,16 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context="com.tarun.saini.popularmovies.MoviesMain.TopMovieList">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:id="@+id/topMovie_recyclerView">
 
-    </android.support.v7.widget.RecyclerView>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.tarun.saini.popularmovies.MoviesMain.Fragment_TopList"
+        android:id="@+id/fragment3"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true" />
+
+
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floating_action_menu"
@@ -56,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_trending_up_white_18dp"
-            fab:fab_label="Popular Movies"
+            fab:fab_label="@string/PopularMovie"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_size="mini" />
 
@@ -65,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_favorite_white_18dp"
-            fab:fab_label="Favorite Movies"
+            fab:fab_label="@string/FavoriteMovie"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_size="mini" />
 
@@ -74,14 +78,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star_white_18dp"
-            fab:fab_label="Top Rated Movies"
+            fab:fab_label="@string/TopRatedMovie"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 
 
-    <include layout="@layout/toolbar">
 
-    </include>
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_collapseMode="pin"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        >
+    </android.support.v7.widget.Toolbar>
+
+
+
 
 </RelativeLayout>

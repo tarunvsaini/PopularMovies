@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context=".MoviesMain.PopularMovieList">
 
-    <android.support.v7.widget.RecyclerView
+    tools:context="com.tarun.saini.popularmovies.MoviesMain.PopularMovieList">
+
+
+    <fragment
+        android:id="@+id/movie_list_container"
+        android:name="com.tarun.saini.popularmovies.MoviesMain.Fragment_PopularList"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:id="@+id/popularMovie_recyclerView">
+        android:layout_centerHorizontal="true">
 
-    </android.support.v7.widget.RecyclerView>
+    </fragment>
+
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:elevation="6dp"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
@@ -42,23 +52,19 @@
         fab:menu_labels_textColor="#040404"
         fab:menu_labels_textSize="15sp"
         fab:menu_openDirection="up"
-        android:elevation="11dp"
         fab:menu_shadowColor="@android:color/transparent"
         fab:menu_shadowRadius="4dp"
-        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowXOffset="4dp"
         fab:menu_shadowYOffset="4dp"
-        fab:menu_showShadow="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        fab:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/floating_action_menu_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_trending_up_white_18dp"
-            fab:fab_label="Popular Movies"
             fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_label="@string/PopularMovie"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -66,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_favorite_white_18dp"
-            fab:fab_label="Favorite Movies"
             fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_label="@string/FavoriteMovie"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -75,11 +81,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_star_white_18dp"
-            fab:fab_label="Top Rated Movies"
             fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_label="@string/TopRatedMovie"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
-    <include layout="@layout/toolbar">
 
-    </include>
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_collapseMode="pin"/>
+
+
 </RelativeLayout>

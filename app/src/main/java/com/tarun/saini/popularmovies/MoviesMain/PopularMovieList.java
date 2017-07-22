@@ -1,79 +1,55 @@
 package com.tarun.saini.popularmovies.MoviesMain;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.tarun.saini.popularmovies.Data.MovieDbHelper;
 import com.tarun.saini.popularmovies.Model.MovieModel;
-import com.tarun.saini.popularmovies.MovieAdapter.PopularMovies;
+import com.tarun.saini.popularmovies.MovieAdapter.PopularMoviesAdapter;
 import com.tarun.saini.popularmovies.R;
-import com.tarun.saini.popularmovies.TmdbApi.TmdbClient;
-import com.tarun.saini.popularmovies.TmdbApi.TmdbInterface;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
 
-public class PopularMovieList extends AppCompatActivity {
+public class PopularMovieList extends AppCompatActivity implements PopularMoviesAdapter.OnMovieClickListener {
 
-    private static final String SAVE_STATE = "saveState";
-    public static final String TAG = TopMovieList.class.getSimpleName();
-    private RecyclerView recyclerView;
-    private PopularMovies mMovieAdapter;
-    public final static String API_KEY = "Add Your API KEY HERE";
-    FloatingActionMenu floatingActionMenu;
-    ArrayList<MovieModel> movieList;
+
+    public final static String API_KEY = "de89bc307e69043208119480f9f2a159";
+    public static final String MOVIE_MODEL = "movieModel";
+    public boolean mTwoPane;
+    public static final String POSITION = "position";
+    public static final String PANES = "panes";
+
+
     FloatingActionButton fab1, fab2, fab3;
     Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top_movie_list);
+        setContentView(R.layout.activity_popular_movie_list);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setFitsSystemWindows(true);
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(Color.parseColor("#20000000"));
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.topMovie_recyclerView);
-        if (getResources().getConfiguration().orientation == 1) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        } else if (getResources().getConfiguration().orientation == 2) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
-        }
-        TmdbInterface tmdbInterface = TmdbClient.getClient().create(TmdbInterface.class);
-        Call<MovieModel> call = tmdbInterface.getPopularMovies(API_KEY);
-        call.enqueue(new Callback<MovieModel>() {
-
-            @Override
-            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-
-                movieList = response.body().getResults();
-                mMovieAdapter = new PopularMovies(movieList, getApplicationContext());
-                recyclerView.setAdapter(mMovieAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<MovieModel> call, Throwable t) {
-
-                Log.e(TAG, t.toString());
-
-            }
-        });
-
-        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
+        FloatingActionMenu floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
         fab1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_popular);
         fab2 = (FloatingActionButton) findViewById(R.id.floating_action_menu_favorite);
         fab3 = (FloatingActionButton) findViewById(R.id.floating_action_menu_top_rated);
@@ -81,6 +57,8 @@ public class PopularMovieList extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PopularMovieList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             }
@@ -88,7 +66,11 @@ public class PopularMovieList extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Toast.makeText(PopularMovieList.this, "Favourite Movies Clicked", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), FavoriteMovieList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
 
             }
@@ -96,23 +78,53 @@ public class PopularMovieList extends AppCompatActivity {
         fab3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), TopMovieList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             }
         });
 
 
-        if (savedInstanceState != null) {
-            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
-            mMovieAdapter = new PopularMovies(movieList, getApplicationContext());
-            recyclerView.setAdapter(mMovieAdapter);
+        if (mTwoPane = findViewById(R.id.movie_linear_layout) != null) {
+            mTwoPane = true;
+
+        } else {
+            mTwoPane = false;
         }
+
     }
 
+
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(SAVE_STATE, movieList);
+    public void onMovieSelected(int position, ArrayList<MovieModel> movie) {
+
+
+        Bundle bundle = new Bundle();
+        if (mTwoPane) {
+
+            Fragment_MovieDetails movieDetails = new Fragment_MovieDetails();
+
+
+            bundle.putInt(POSITION, position);
+            bundle.putBoolean(PANES, mTwoPane);
+            bundle.putParcelableArrayList(MOVIE_MODEL, movie);
+            movieDetails.setArguments(bundle);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.movie_detail_container, movieDetails);
+            transaction.commit();
+        } else {
+            Intent intent = new Intent(this, MovieDetails.class);
+            bundle.putInt(POSITION, position);
+            bundle.putBoolean(PANES, mTwoPane);
+            intent.putExtra(MovieDetails.DETAILS, movie.get(position));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        }
+
 
     }
 }

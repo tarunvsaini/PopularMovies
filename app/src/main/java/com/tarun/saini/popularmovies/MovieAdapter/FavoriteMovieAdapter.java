@@ -19,55 +19,61 @@ import com.tarun.saini.popularmovies.R;
 import java.util.List;
 
 /**
- * Created by Tarun on 24-07-2016.
- *
+ * Created by Tarun on 21-07-2017.
  */
-public class TopRatedMovies extends RecyclerView.Adapter<TopRatedMovies.TopViewHolder> {
+
+public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdapter.MovieViewHolder>
+{
 
     private List<MovieModel> mMovies;
     private Context mContext;
-     View mView;
+    private View mView;
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
 
-    public TopRatedMovies(List<MovieModel> movies, Context context)
-    {
-        this.mMovies=movies;
-        this.mContext=context;
+
+
+    public FavoriteMovieAdapter(List<MovieModel> mMovies, Context mContext) {
+        this.mMovies = mMovies;
+        this.mContext = mContext;
     }
 
     @Override
-    public TopRatedMovies.TopViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mView= LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout,parent,false);
-        final TopViewHolder topViewHolder=new TopViewHolder(mView);
+        final MovieViewHolder movieViewHolder=new FavoriteMovieAdapter.MovieViewHolder(mView);
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int position=topViewHolder.getAdapterPosition();
-                Intent intent=new Intent(mContext, MovieDetails.class);
+                int position=movieViewHolder.getAdapterPosition();
+                Intent intent =new Intent(mContext,MovieDetails.class);
                 intent.putExtra(MovieDetails.DETAILS ,mMovies.get(position));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
                 mContext.startActivity(intent);
 
             }
         });
-
-        return topViewHolder;
+        return movieViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(TopRatedMovies.TopViewHolder holder, int position)
+    public void onBindViewHolder(FavoriteMovieAdapter.MovieViewHolder holder, int position)
     {
-        MovieModel movieModel =mMovies.get(position);
-        String PosterUrl=movieModel.getPoster();
+        final MovieModel movieModel =mMovies.get(position);
+
+        String PosterUrl=BASE_POSTER_URL+movieModel.getPoster();
         Glide.with(mContext)
                 .load(PosterUrl)
                 .listener(GlidePalette.with(PosterUrl)
-                        .use(GlidePalette.Profile.MUTED_DARK)
+                        .use(GlidePalette.Profile.VIBRANT_DARK)
                         .intoBackground(holder.grid_card))
                 .into(holder.poster);
-        holder.title.setText(movieModel.getTitle());
-        holder.description.setText("TMDB Rating: "+String.format("%.1f", movieModel.getVoteAverage())+"/10");
+
+        holder.title.setText(movieModel.getTitle().trim());
+
+
+        holder.description.setText(mContext.getString(R.string.popularity) + String.format("%.1f", movieModel.getPopularity()));
+
 
     }
 
@@ -76,17 +82,19 @@ public class TopRatedMovies extends RecyclerView.Adapter<TopRatedMovies.TopViewH
         return mMovies.size();
     }
 
-    public static class TopViewHolder extends RecyclerView.ViewHolder {
-
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
         ImageView poster;
-        TextView title,description;
         CardView grid_card;
-        public TopViewHolder(View itemView) {
+        TextView title,description;
+        public MovieViewHolder(View itemView)
+        {
             super(itemView);
             poster= (ImageView) itemView.findViewById(R.id.poster);
             title= (TextView) itemView.findViewById(R.id.title);
-            description= (TextView) itemView.findViewById(R.id.details);
+            description=(TextView) itemView.findViewById(R.id.secondary);
             grid_card= (CardView) itemView.findViewById(R.id.grid_card);
+
+
         }
     }
 }

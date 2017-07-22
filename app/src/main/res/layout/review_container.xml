@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/review_card_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="5dp">
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_botton">
+
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="@dimen/profile_dimen"
+            android:layout_height="@dimen/profile_dimen"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/margin_large"
+            android:contentDescription="@string/profile"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/profile"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_toEndOf="@+id/profile"
+            android:layout_toRightOf="@+id/profile"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profile"
+            android:layout_alignStart="@+id/profile"
+            android:layout_below="@+id/profile"
+            android:layout_margin="@dimen/mini_inner_margin"
+            android:maxLines="15"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/seconadry_review_text" />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
