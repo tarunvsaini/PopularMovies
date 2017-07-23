@@ -8,13 +8,15 @@
     tools:context="com.tarun.saini.popularmovies.MoviesMain.TopMovieList">
 
 
-    <fragment
-        android:layout_width="match_parent"
+
+
+    <FrameLayout
+        android:id="@+id/top_movie_list_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.tarun.saini.popularmovies.MoviesMain.Fragment_TopList"
-        android:id="@+id/fragment3"
         android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true">
+    </FrameLayout>
 
 
 

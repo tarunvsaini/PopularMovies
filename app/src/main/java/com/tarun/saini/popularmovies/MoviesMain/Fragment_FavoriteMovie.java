@@ -3,6 +3,7 @@ package com.tarun.saini.popularmovies.MoviesMain;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.tarun.saini.popularmovies.Data.MovieContract;
 import com.tarun.saini.popularmovies.Model.MovieModel;
@@ -81,7 +83,6 @@ public class Fragment_FavoriteMovie extends Fragment {
     }
 
 
-
     public List<MovieModel> getAllMovie(){
         List<MovieModel> movieList = new ArrayList<>();
         String[] projection = {
@@ -117,6 +118,6 @@ public class Fragment_FavoriteMovie extends Fragment {
         }
         cursor.close();
         return movieList;
-    }
+    }}
 
-}
+

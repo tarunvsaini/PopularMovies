@@ -1,4 +1,4 @@
 # PopularMovies
-Udacity Nanodegree Popular Movies Project
+Udacity Nanodegree Popular Movies Stage 1 Project
 
 

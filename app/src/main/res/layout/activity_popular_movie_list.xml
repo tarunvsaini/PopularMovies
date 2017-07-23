@@ -8,15 +8,13 @@
     tools:context="com.tarun.saini.popularmovies.MoviesMain.PopularMovieList">
 
 
-    <fragment
+    <FrameLayout
         android:id="@+id/movie_list_container"
-        android:name="com.tarun.saini.popularmovies.MoviesMain.Fragment_PopularList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true">
-
-    </fragment>
+    </FrameLayout>
 
 
     <com.github.clans.fab.FloatingActionMenu

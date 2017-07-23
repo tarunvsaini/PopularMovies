@@ -33,13 +33,13 @@
         tools:context="com.example.android.android_me.ui.MainActivity">
 
 
-        <fragment
+        <FrameLayout
+            android:id="@+id/top_movie_list_container"
             android:layout_width="320dp"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:name="com.tarun.saini.popularmovies.MoviesMain.Fragment_TopList"
-            android:id="@+id/fragment3"
-            />
+            >
+        </FrameLayout>
 
         <View
             android:layout_width="1dp"

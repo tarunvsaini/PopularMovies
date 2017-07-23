@@ -68,6 +68,7 @@ public class Fragment_MovieDetails extends Fragment {
 
     private static final String SAVE_STATE = "saveState";
     private static final String SAVE_EXTRAS = "saveExtras";
+    private static final String SAVE_URL = "trailerUrl";
     private ArrayList<MovieModel> movieList = new ArrayList<>();
     public static final String DETAILS = "details";
     private MovieModel mMovieModel;
@@ -93,6 +94,9 @@ public class Fragment_MovieDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
+
+
+
 
         backdrop = (ImageView) rootView.findViewById(R.id.backdrop);
         poster = (ImageView) rootView.findViewById(R.id.poster);
@@ -210,20 +214,105 @@ public class Fragment_MovieDetails extends Fragment {
         if (mTwoPane) {
             tabView();
             toolbar.setVisibility(View.GONE);
+
+
         } else {
             phoneView();
 
-
-            if ((checkMovieId(mMovieModel.getId()))) {
-
-                favBox.setChecked(true);
-            } else {
-                favBox.setChecked(false);
-
-            }
         }
 
-        //Retrofit Call for Movie Reviews
+        if ((checkMovieId(mMovieModel.getId()))) {
+
+            favBox.setChecked(true);
+        } else {
+            favBox.setChecked(false);
+
+        }
+
+
+
+
+
+        if (savedInstanceState == null)
+        {
+
+            //Retrofit Call for Movie Reviews and youtubeVideo
+            getExtras();
+
+        }
+        else
+        {
+            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
+            listItemReview = savedInstanceState.getParcelableArrayList(SAVE_EXTRAS);
+            trailer = savedInstanceState.getParcelableArrayList(SAVE_URL);
+            TRAILER_URL=savedInstanceState.getString(SAVE_URL);
+            if (listItemReview!=null)
+            {
+                recyclerView.setAdapter(new ReviewAdapter(listItemReview, getContext()));
+                if (listItemReview.size() == 0) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    empty_review.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    empty_review.setVisibility(View.INVISIBLE);
+                }
+
+            }
+            if(trailer!=null)
+            {
+                TRAILER_URL = trailer.get(0).getKeyUrl();
+                youtube.setVisibility(View.VISIBLE);
+
+            }
+
+
+        }
+
+        return rootView;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(SAVE_EXTRAS, listItemReview);
+        outState.putParcelableArrayList(SAVE_STATE, movieList);
+        outState.putParcelableArrayList(SAVE_URL,trailer);
+
+
+    }
+
+
+    //Share Movie URL
+
+    public Intent shareIntent(String Message) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        if (TRAILER_URL != null) {
+            share.putExtra(android.content.Intent.EXTRA_TEXT, Message + " \n" + TRAILER_URL);
+            startActivity(share);
+        } else {
+            Toast.makeText(getActivity(), R.string.no_trailer, Toast.LENGTH_SHORT).show();
+        }
+        return share;
+
+
+    }
+
+
+
+    public void getExtras()
+    {
         TmdbInterface apiService =
                 TmdbClient.getClient().create(TmdbInterface.class);
 
@@ -280,81 +369,34 @@ public class Fragment_MovieDetails extends Fragment {
 
             }
         });
-
-
-
-        if (savedInstanceState != null) {
-            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
-            listItemReview = savedInstanceState.getParcelableArrayList(SAVE_EXTRAS);
-            recyclerView.setAdapter(new ReviewAdapter(listItemReview, getContext()));
-
-
-        }
-
-
-
-
-        return rootView;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-
-    }
-
-
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(SAVE_EXTRAS, listItemReview);
-        outState.putParcelableArrayList(SAVE_STATE, movieList);
-
-
-    }
-
-
-    //Share Movie URL
-
-    public Intent shareIntent(String Message) {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("text/plain");
-        if (TRAILER_URL != null) {
-
-
-            share.putExtra(android.content.Intent.EXTRA_TEXT, Message + " \n" + TRAILER_URL);
-            startActivity(share);
-        } else {
-            Toast.makeText(getActivity(), R.string.no_trailer, Toast.LENGTH_SHORT).show();
-        }
-        return share;
-
-
-    }
-
 
     public void phoneView() {
         mMovieModel = getActivity().getIntent().getParcelableExtra(DETAILS);
+        getMovieDetails();
+    }
+
+    public void tabView() {
+
+        modelList = getArguments().getParcelableArrayList(MOVIE_MODEL);
+        int position = getArguments().getInt(POSITION);
+        mMovieModel=modelList.get(position);
+        getMovieDetails();
+    }
+
+
+    private void getMovieDetails()
+    {
         title.setText(mMovieModel.getTitle());
-        String releaseDate = "Release Date: ";
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse(mMovieModel.getReleaseDate());
             String formattedDate = new SimpleDateFormat("dd MMM yyyy").format(date);
-            release.setText(releaseDate + formattedDate);
+            release.setText(formattedDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        language.setText(R.string.language + mMovieModel.getOriginalLanguage());
+        language.setText( mMovieModel.getOriginalLanguage());
         desc.setText(mMovieModel.getOverview());
         ratings.setText(String.valueOf(mMovieModel.getVoteAverage()));
         votes.setText(String.valueOf(mMovieModel.getVoteCount()));
@@ -368,40 +410,6 @@ public class Fragment_MovieDetails extends Fragment {
                 .into(poster);
         Glide.with(this).load(BASE_BACKDROP_URL + mMovieModel.getBackdropPath()).into(backdrop);
         movieId = mMovieModel.getId();
-
-
-    }
-
-    public void tabView() {
-
-        modelList = getArguments().getParcelableArrayList(MOVIE_MODEL);
-        int position = getArguments().getInt(POSITION);
-        title.setText(modelList.get(position).getTitle());
-
-
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(modelList.get(position).getReleaseDate());
-            String formattedDate = new SimpleDateFormat("dd MMM yyyy").format(date);
-            release.setText(R.string.releaseDate + formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        language.setText( modelList.get(position).getOriginalLanguage());
-        Toast.makeText(getActivity(), modelList.get(position).getOriginalLanguage()+"", Toast.LENGTH_SHORT).show();
-        desc.setText(modelList.get(position).getOverview());
-        ratings.setText(String.valueOf(modelList.get(position).getVoteAverage()));
-        votes.setText(String.valueOf(modelList.get(position).getVoteCount()));
-        popularity.setText(String.format("%.1f", modelList.get(position).getPopularity()));
-
-        Glide.with(this)
-                .load(BASE_POSTER_URL + modelList.get(position).getPoster())
-                .listener(GlidePalette.with(modelList.get(position).getPoster())
-                        .use(GlidePalette.Profile.MUTED)
-                        .intoBackground(linearLayout))
-                .into(poster);
-        Glide.with(this).load(BASE_BACKDROP_URL + modelList.get(position).getBackdropPath()).into(backdrop);
-        movieId = modelList.get(position).getId();
     }
 
 
@@ -452,5 +460,6 @@ public class Fragment_MovieDetails extends Fragment {
         return true;
 
     }
+
 
 }

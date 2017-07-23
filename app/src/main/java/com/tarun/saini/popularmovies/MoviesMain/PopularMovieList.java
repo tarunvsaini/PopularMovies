@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,9 +28,12 @@ public class PopularMovieList extends AppCompatActivity implements PopularMovies
 
     public final static String API_KEY = "de89bc307e69043208119480f9f2a159";
     public static final String MOVIE_MODEL = "movieModel";
+    private static final String SAVE_STATE = "save_state";
     public boolean mTwoPane;
     public static final String POSITION = "position";
     public static final String PANES = "panes";
+
+    Fragment fragmentPopularMovies;
 
 
     FloatingActionButton fab1, fab2, fab3;
@@ -48,6 +52,23 @@ public class PopularMovieList extends AppCompatActivity implements PopularMovies
         tintManager.setNavigationBarTintEnabled(true);
         tintManager.setTintColor(Color.parseColor("#20000000"));
 
+
+
+        if (savedInstanceState==null)
+        {
+        fragmentPopularMovies=new Fragment_PopularList();
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.movie_list_container,fragmentPopularMovies);
+        fragmentTransaction.commit();
+        }else
+        {
+            if(fragmentPopularMovies!=null && fragmentPopularMovies.isAdded())
+            {
+                fragmentPopularMovies =  getSupportFragmentManager().getFragment(savedInstanceState,SAVE_STATE);
+
+            }
+
+        }
 
         FloatingActionMenu floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
         fab1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_popular);
@@ -126,5 +147,20 @@ public class PopularMovieList extends AppCompatActivity implements PopularMovies
         }
 
 
+    }@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (fragmentPopularMovies!=null && fragmentPopularMovies.isAdded())
+        {
+            getSupportFragmentManager().putFragment(outState,SAVE_STATE,fragmentPopularMovies);
+
+        }
+
     }
+
+
+
+
+
+
 }

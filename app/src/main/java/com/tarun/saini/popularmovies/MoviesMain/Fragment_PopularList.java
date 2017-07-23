@@ -65,58 +65,53 @@ public class Fragment_PopularList extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         }
 
+        if (savedInstanceState == null) {
 
-        TmdbInterface tmdbInterface = TmdbClient.getClient().create(TmdbInterface.class);
-        Call<MovieModel> call = tmdbInterface.getPopularMovies(API_KEY);
-        call.enqueue(new Callback<MovieModel>() {
-
-            @Override
-            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-
-                movieList = response.body().getResults();
-
-
-                    mMovieAdapter = new PopularMoviesAdapter(movieList, getContext(), mCallBack);
-                    recyclerView.setAdapter(mMovieAdapter);
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<MovieModel> call, Throwable t) {
-
-
-
-                Log.e(TAG, t.toString());
-
-            }
-        });
-
-
-        if (savedInstanceState != null) {
-            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
-            if (movieList != null)
-            {
-                mMovieAdapter = new PopularMoviesAdapter(movieList, getActivity(), mCallBack);
-                recyclerView.setAdapter(mMovieAdapter);
-
-            }
+            getMovies();
 
         }
+        else
+            {
+                movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
+                if (movieList != null)
+                {   mMovieAdapter = new PopularMoviesAdapter(movieList, getActivity(),mCallBack);
+                    recyclerView.setAdapter(mMovieAdapter);
+
+                }
+
+            }
+
+
 
         return rootView;
     }
 
+   private void getMovies()
+   {
 
+       TmdbInterface tmdbInterface = TmdbClient.getClient().create(TmdbInterface.class);
+       Call<MovieModel> call = tmdbInterface.getPopularMovies(API_KEY);
+       call.enqueue(new Callback<MovieModel>() {
+
+           @Override
+           public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+
+
+               movieList = response.body().getResults();
+               mMovieAdapter = new PopularMoviesAdapter(movieList, getContext(), mCallBack);
+               recyclerView.setAdapter(mMovieAdapter);
+           }
+
+           @Override
+           public void onFailure(Call<MovieModel> call, Throwable t) {
+
+
+
+               Log.e(TAG, t.toString());
+
+           }
+       });
+   }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

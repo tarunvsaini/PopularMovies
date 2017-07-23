@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.tarun.saini.popularmovies.Model.MovieModel;
+import com.tarun.saini.popularmovies.MovieAdapter.PopularMoviesAdapter;
 import com.tarun.saini.popularmovies.MovieAdapter.TopRatedMoviesAdapter;
 import com.tarun.saini.popularmovies.R;
 import com.tarun.saini.popularmovies.TmdbApi.TmdbClient;
@@ -49,14 +51,39 @@ public class Fragment_TopList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.Movie_recyclerView);
+        View rootView = inflater.inflate(R.layout.fragment_top_movie_list, container, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.topMovie_recyclerView);
         if (getResources().getConfiguration().orientation == 1) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         } else if (getResources().getConfiguration().orientation == 2) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         }
+
+        if (savedInstanceState == null) {
+
+            getMovies();
+
+        }
+        else
+        {
+            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
+            if (movieList != null)
+            {
+
+                mMovieAdapter = new TopRatedMoviesAdapter(movieList, getContext(), mCallBack);
+                recyclerView.setAdapter(mMovieAdapter);
+
+            }
+
+        }
+
+        return rootView;
+    }
+
+    private void getMovies()
+    {
+
         TmdbInterface tmdbInterface = TmdbClient.getClient().create(TmdbInterface.class);
         Call<MovieModel> call = tmdbInterface.getTopRatedMovies(PopularMovieList.API_KEY);
         call.enqueue(new Callback<MovieModel>() {
@@ -77,16 +104,7 @@ public class Fragment_TopList extends Fragment {
 
             }
         });
-
-
-        if (savedInstanceState != null) {
-            movieList = savedInstanceState.getParcelableArrayList(SAVE_STATE);
-            mMovieAdapter = new TopRatedMoviesAdapter(movieList, getContext(), mCallBack);
-            recyclerView.setAdapter(mMovieAdapter);
-        }
-        return rootView;
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

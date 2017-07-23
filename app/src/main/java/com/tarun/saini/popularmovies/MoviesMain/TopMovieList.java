@@ -3,6 +3,7 @@ package com.tarun.saini.popularmovies.MoviesMain;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,18 +22,16 @@ import java.util.ArrayList;
 
 public class TopMovieList extends AppCompatActivity implements TopRatedMoviesAdapter.OnTopMovieClickListener {
 
-    private static final String SAVE_STATE ="saveState" ;
-    public static final String TAG =TopMovieList.class.getSimpleName() ;
-    private RecyclerView recyclerView;
-    private TopRatedMoviesAdapter mMovieAdapter;
+
     public static final String MOVIE_MODEL = "movieModel";
+    private static final String SAVE_STATE = "save_state";
     FloatingActionMenu floatingActionMenu;
     public boolean mTwoPane;
     public static final String POSITION = "position";
     public static final String PANES = "panes";
-    ArrayList<MovieModel> movieList;
     FloatingActionButton fab1,fab2,fab3;
     Toolbar mToolbar;
+    Fragment fragmentTopMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,23 @@ public class TopMovieList extends AppCompatActivity implements TopRatedMoviesAda
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setNavigationBarTintEnabled(true);
         tintManager.setTintColor(Color.parseColor("#20000000"));
+
+
+        if (savedInstanceState==null)
+        {
+            fragmentTopMovies=new Fragment_TopList();
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.top_movie_list_container,fragmentTopMovies);
+            fragmentTransaction.commit();
+        }else
+        {
+            if(fragmentTopMovies!=null && fragmentTopMovies.isAdded())
+            {
+                fragmentTopMovies =  getSupportFragmentManager().getFragment(savedInstanceState,SAVE_STATE);
+
+            }
+
+        }
 
 
         floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
@@ -95,6 +111,8 @@ public class TopMovieList extends AppCompatActivity implements TopRatedMoviesAda
         }
 
 
+
+
     }
 
     @Override
@@ -130,6 +148,19 @@ public class TopMovieList extends AppCompatActivity implements TopRatedMoviesAda
         }
 
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (fragmentTopMovies!=null && fragmentTopMovies.isAdded())
+        {
+            getSupportFragmentManager().putFragment(outState,SAVE_STATE,fragmentTopMovies);
+
+        }
+
+    }
+
 
 
 }

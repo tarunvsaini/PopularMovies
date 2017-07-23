@@ -1,6 +1,7 @@
 package com.tarun.saini.popularmovies.MovieAdapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
 
 
     private OnMovieClickListener mClickListener;
+
+
 
 
     public interface OnMovieClickListener
